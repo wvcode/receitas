@@ -1,0 +1,7 @@
+taipy
+openai
+pandas
+llama-index
+pypdf 
+pypdf2 
+python-dotenv
