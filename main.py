@@ -6,9 +6,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from pages.generate import gen_q_md
+from pages.generate import gen_q_md, on_init as gen_on_init
+from pages.buscar import buscar_md, on_init as bsc_on_init
 
-pages = {"/": "<center><|navbar|></center>", "Receitas": gen_q_md}
+
+def on_init(state):
+    gen_on_init(state)
+    bsc_on_init(state)
+
+
+pages = {
+    "/": "<center><|navbar|></center>",
+    "Receitas": buscar_md,
+    "Playground": gen_q_md,
+}
 
 
 # ----------------------------------------------------------------

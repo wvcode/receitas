@@ -5,3 +5,4 @@ llama-index
 pypdf 
 pypdf2 
 python-dotenv
+pdfplumber

@@ -24,11 +24,11 @@ from llama_index.llms import OpenAI
 
 
 def prep_genai():
-    llm = OpenAI(model="gpt-3.5-turbo", temperature=0, max_tokens=256)
+    llm = OpenAI(model="gpt-3.5-turbo", temperature=0.05, max_tokens=1024)
     embed_model = OpenAIEmbedding()
     prompt_helper = PromptHelper(
         context_window=4096,
-        num_output=256,
+        num_output=1024,
         chunk_overlap_ratio=0.1,
         chunk_size_limit=None,
     )
@@ -41,6 +41,10 @@ def prep_genai():
     index = VectorStoreIndex.from_documents(documents)
     query_engine = index.as_query_engine(service_context=service_context)
     return query_engine
+
+
+def on_init(state):
+    state.engine = prep_genai()
 
 
 def send_question2(state, id, action):
@@ -61,7 +65,7 @@ Modo de Preparo:
 <Passos para preparar a receita>
 
 Observações:
-<Toda a informação que não seja lista de ingredientes ou modo de preparo>        """
+<Toda a informação que não seja lista de ingredientes ou modo de preparo>"""
         response = state.engine.query(state.prompt)
         state.resultado = str(response)
         notify(state, "sucesso", "Receita extraída e formatada!")
@@ -93,25 +97,20 @@ def send_question3(state, id, action):
 
 # Definição de Variável
 prompt_simples = ""
-
 prompt = ""
 resultado = ""
-
-engine = prep_genai()
+engine = None
 
 # Definição Pagina
 gen_q_md = Markdown(
     """<|container|
     
-<|layout|columns=1fr 250px|gap=5px|class_name=card|
+<|layout|columns=1|gap=5px|class_name=card|
 <|c1|
 **Extração**
 |>
-<|c2|
-**Transformação**
-|>
 <|c3|
-<|{prompt_simples}|input|label="Digite o nome de 1 receita:"|multiline=true|class_name=fullwidth|>
+<|{prompt_simples}|input|label="Digite o nome de 1 receita:"|multiline=false|class_name=fullwidth|>
 <br/>
 <center><|Extrair|button|on_action=send_question1|><|Formatar|button|on_action=send_question2|></center>
 |>
