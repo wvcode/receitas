@@ -250,7 +250,7 @@ buscar_md = Markdown(
     
 <|layout|columns=1|gap=5px|class_name=card|
 <|c1|
-**Extração**
+**Buscar Receita**
 |>
 <|c3|
 Receita:

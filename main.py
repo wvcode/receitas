@@ -11,14 +11,14 @@ from pages.buscar import buscar_md, on_init as bsc_on_init
 
 
 def on_init(state):
-    gen_on_init(state)
+    # gen_on_init(state)
     bsc_on_init(state)
 
 
 pages = {
     "/": "<center><|navbar|></center>",
     "Receitas": buscar_md,
-    "Playground": gen_q_md,
+    # "Playground": gen_q_md,
 }
 
 
